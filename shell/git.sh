@@ -2,15 +2,16 @@
 
 echo "First push to Repo, then deployment of the code"
 echo " "
-echo "Check if code has changed"
+
 
 if [[ `git status --porcelain` ]]; then
+    echo "Code has changed, please add commitmessage"
     echo -n "Add Commit Message > "
     read commit
-    git commit -m "$commit"
+    git add -A && git commit -m "$commit"
     git push origin master
 else
-  echo "No changes were made"
+  echo "No changes were made to the codebase"
 fi
 
 
