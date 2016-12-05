@@ -1,12 +1,8 @@
 #!/bin/bash
+source shell/config.yml
 
+echo "Watch running processes: "
 
-echo "Watch processes"
-
-echo -n "Input ssh adress for git Update > "
-    read text
-    echo "Starting to watch at: "$text
-
-ssh $text "
+ssh -t $RATTLESSH "
     watch nvidia-smi
 "
