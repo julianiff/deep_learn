@@ -1,6 +1,11 @@
 #!/bin/bash
 
-echo "deployment of the code"
+echo "First push to Repo, then deployment of the code"
+echo " "
+echo -n "Commit message eingeben > "
+read commit
+git commit -m "$commit"
+git push origin master
 
 echo -n "Input ssh adress for git Update > "
     read text
