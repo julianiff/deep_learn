@@ -1,5 +1,14 @@
 #!/bin/bash
 
+source shell/config.yml
+
+echo $GITUSER
+echo $GITPW
+echo $RATTLEUSER
+echo $LOGINPW
+echo $RATTLESSH
+
+
 echo "First push to Repo, then deployment of the code"
 echo " "
 
@@ -15,12 +24,9 @@ else
 fi
 
 
+echo "The Code will be deployed to: "$RATTLESSH
 
-echo -n "Input ssh adress for git Update > "
-    read text
-    echo "The Code will be deployed to: "$text
-
-ssh $text "
+ssh $RATTLESSH "
     echo 'update Repository'
     cd final
     git pull
