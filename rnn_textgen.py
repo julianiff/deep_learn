@@ -120,7 +120,7 @@ for i in range(epochs):
 
     # set nb_epoch to 1 since we're iterating manually
     # comment this out if you just want to generate text
-    model.fit(X, y, batch_size=128)
+    model.fit(X, y, batch_size=128, nb_epoch=1)
 
     # preview
     for temp in [0.2, 0.5, 1., 1.2]:
