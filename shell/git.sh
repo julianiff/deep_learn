@@ -2,10 +2,18 @@
 
 echo "First push to Repo, then deployment of the code"
 echo " "
-echo -n "Commit message eingeben > "
-read commit
-git commit -m "$commit"
-git push origin master
+echo "Check if code has changed"
+
+if [[ `git status --porcelain` ]]; then
+    echo -n "Add Commit Message > "
+    read commit
+    git commit -m "$commit"
+    git push origin master
+else
+  echo "No changes were made"
+fi
+
+
 
 echo -n "Input ssh adress for git Update > "
     read text
