@@ -68,6 +68,10 @@ for i, example in enumerate(inputs):
     y[i, char_labels[outputs[i]]] = 1
 
 
+# more epochs is usually better, but training can be very slow if not on a GPU
+epochs = 1
+model.fit(X, y, batch_size=128, nb_epoch=epochs)
+
 """ Function to produce text from the network"""
 
 def generate(temperature=0.35, seed=None, predicate=lambda x: len(x) < 100):
