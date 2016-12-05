@@ -70,7 +70,7 @@ for i, example in enumerate(inputs):
 
 """ Function to produce text from the network"""
 
-def generate(temperature=0.35, seed=None, predicate=lambda x: len(x) < 100):
+def generate(temperature=0.35, seed=None, predicate=lambda x: len(x) < 200):
     if seed is not None and len(seed) < max_len:
         raise Exception('Seed text must be at least {} chars long'.format(max_len))
 
