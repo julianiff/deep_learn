@@ -2,12 +2,6 @@
 
 source shell/config.yml
 
-echo $GITUSER
-echo $GITPW
-echo $RATTLEUSER
-echo $LOGINPW
-echo $RATTLESSH
-
 
 echo "First push to Repo, then deployment of the code"
 echo " "
