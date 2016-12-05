@@ -37,8 +37,10 @@ which basically penalizes the network more the further off it is from the correc
 Dropout to prevent overfitting, have some wiggle room,
 """
 
-text = "The fish trap exists because of the fish. Once you have gotten the fish you can forget the trap. The rabbit snare exists because of the rabbit. Once you have gotten the rabbit, you can forget the snare. Words exist because of meaning. Once you have gotten the meaning, you can forget the words. Where can I find a man who has forgotten words so that I may have a word with him?"
 
+"""
+Generalization of training example with step 3
+"""
 step = 3
 inputs = []
 outputs = []
@@ -47,20 +49,12 @@ for i in range(0, len(text) - max_len, step):
     outputs.append(text[i+max_len])
 
 
+""" Map Each character to a label and create a reverse mapping to use later: """
 char_labels = {ch:i for i, ch in enumerate(chars)}
 labels_char = {i:ch for i, ch in enumerate(chars)}
 
 
-# assuming max_len = 7
-# so our examples have 7 characters
-example = 'cab dab'
-example_char_labels = {
-    'a': 0,
-    'b': 1,
-    'c': 2,
-    'd': 3,
-    ' ' : 4
-}
+""" Numerical input 3-tensor and output Matrix, Each sequence of characters is turned into a matrix of one-hot vectors """
 
 
 # using bool to reduce memory usage
@@ -73,6 +67,8 @@ for i, example in enumerate(inputs):
         X[i, t, char_labels[char]] = 1
     y[i, char_labels[outputs[i]]] = 1
 
+
+""" Function to produce text from the network"""
 
 def generate(temperature=0.35, seed=None, predicate=lambda x: len(x) < 100):
     if seed is not None and len(seed) < max_len:
@@ -104,6 +100,9 @@ def generate(temperature=0.35, seed=None, predicate=lambda x: len(x) < 100):
         sentence = sentence[1:] + next_char
     return generated
 
+""" Temperate controls the randomness of the network. The lower the temparature
+    favors more likely values, higher introduce more randomness """
+
 def sample(probs, temperature):
     """samples an index from a vector of probabilities
     (this is not the most efficient way but is more robust)"""
@@ -112,6 +111,8 @@ def sample(probs, temperature):
     choices = range(len(probs))
     return np.random.choice(choices, p=dist)
 
+
+""" With this generation function we can modify how we train the newtork so that we see some output at each step:"""
 
 epochs = 10
 for i in range(epochs):
