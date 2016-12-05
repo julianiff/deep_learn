@@ -11,7 +11,7 @@ from keras.layers.recurrent import LSTM
 from keras.layers.core import Dense, Activation, Dropout
 
 # load up our text
-text_files = glob('../data/sotu/*.txt')
+text_files = glob('data/sotu/*.txt')
 text = '\n'.join([open(f, 'r').read() for f in text_files])
 
 # extract all (unique) characters
