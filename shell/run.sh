@@ -1,1 +1,1 @@
-"If we want to write a run.sh"
+"If we want to have a run.sh"

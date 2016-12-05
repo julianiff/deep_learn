@@ -1,11 +1,15 @@
 #!/bin/bash
 
-echo "deploy on Rattle"
+echo "deployment of the code"
 
-ssh jiff@rattle.ifi.uzh.ch "
+echo -n "Input ssh adress for git Update > "
+    read text
+    echo "The Code will be deployed to: "$text
+
+ssh $text "
     echo 'update Repository'
     cd final
     git pull
     git status
-    echo 'Updated Code on rattle'
+    echo 'Updated Code'
 "
