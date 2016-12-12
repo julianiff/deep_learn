@@ -5,6 +5,7 @@ source shell/config.yml
 
 echo "First push to Repo, then deployment of the code"
 echo " "
+git pull
 
 
 if [[ `git status --porcelain` ]]; then
