@@ -26,7 +26,7 @@ max_len = 20
 model = Sequential()
 model.add(LSTM(512, return_sequences=True, input_shape=(max_len, len(chars))))
 model.add(Dropout(0.2))
-model.add(Bidirectional(LSTM(512, return_sequences=False)))
+model.add(LSTM(512, return_sequences=False))
 model.add(Dropout(0.2))
 model.add(Dense(len(chars)))
 model.add(Activation('softmax'))
