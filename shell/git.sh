@@ -3,10 +3,11 @@
 source shell/config.yml
 
 
-echo "First push to Repo, then deployment of the code"
 echo " "
+echo "First Pull from the Repo"
 git pull
-
+echo " "
+echo "Then push to Repo, then deployment of the code"
 
 if [[ `git status --porcelain` ]]; then
     echo "Code has changed, please add commitmessage"
