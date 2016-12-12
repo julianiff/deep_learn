@@ -8,6 +8,7 @@ import numpy as np
 from glob import glob
 from keras.models import Sequential
 from keras.layers.recurrent import LSTM
+from keras.layers import Bidirectional
 from keras.layers.core import Dense, Activation, Dropout
 
 # load up our text
@@ -25,7 +26,7 @@ max_len = 20
 model = Sequential()
 model.add(LSTM(512, return_sequences=True, input_shape=(max_len, len(chars))))
 model.add(Dropout(0.2))
-model.add(LSTM(512, return_sequences=False))
+model.add(Bidirectional(LSTM(512, return_sequences=False)))
 model.add(Dropout(0.2))
 model.add(Dense(len(chars)))
 model.add(Activation('softmax'))
