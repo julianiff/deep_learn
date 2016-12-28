@@ -126,3 +126,29 @@ for i in range(epochs):
     for temp in [0.2, 0.5, 1., 1.2]:
         print('temperature: %0.2f'%temp)
         print('%s'%generate(temperature=temp))
+
+
+
+# Add perplexity as evaluation measure. (A low perplexity indicates the probability distribution is good at predicting
+# the sample.)
+
+from keras import backend as K
+
+def perplexity(y_true, y_pred, mask=None):
+    if mask is not None:
+        y_pred /= K.sum(y_pred, axis=-1, keepdims=True)
+        mask = K.permute_dimensions(K.reshape(mask, y_true.shape[:-1]), (0, 1, 'x'))
+        truth_mask = K.flatten(y_true*mask).nonzero()[0]  ### How do you do this on tensorflow?
+        predictions = K.gather(y_pred.flatten(), truth_mask)
+        return K.pow(2, K.mean(-K.log2(predictions)))
+    else:
+        return K.pow(2, K.mean(-K.log2(y_pred)))
+
+
+    # from predicted probability distribution (ich glaube das isch "probs"), get the probability of the correct character
+    # (and not the probability of the predicted character!!), das isch denn s'"y_pred" wo id endformle muss...
+    # für was mer de rest brucht weiss ich nööööööd
+
+    #TODO get probability of correct character from probs.... wie? y?
+
+# http://stackoverflow.com/questions/37089201/how-to-calculate-perplexity-for-a-language-model-trained-using-keras
