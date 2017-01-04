@@ -88,8 +88,11 @@ def generate(temperature=0.35, seed=None, predicate=lambda x: len(x) < 200):
         x = np.zeros((1, max_len, len(chars)))
         for t, char in enumerate(sentence):
             x[0, t, char_labels[char]] = 1.
-            # ????? IS THIS Y_TRUE?!?!??!?
+            # TODO GET one hot encoded vector of true y
+            # ????? IS THIS Y_TRUE?!?!??!?!!??? for perplexity calculation we need the one-hot encoded vector of the
+            # true/correct next character....
             print("maaaaybe this is y_true..... : ", y[0])
+            y_one_hot = y[0]
 
         # this produces a probability distribution over characters
         probs = model.predict(x, verbose=0)[0]
@@ -100,14 +103,13 @@ def generate(temperature=0.35, seed=None, predicate=lambda x: len(x) < 200):
         next_char = labels_char[next_idx]
         print("next_char is: ", next_char, " and labels_char[next_idx] is :", labels_char[next_idx])
 
-        print("y predicted might be : ", probs[next_idx])
-
+        print("y predicted probability distribution : ", probs)
         generated += next_char
         sentence = sentence[1:] + next_char
-        print("Probs is : ", probs)
 
-        # list containing generated and the probability of the predicted char
-        list = [generated, probs, next_idx]
+
+        # list containing all infos for perplexity calculation and to output the generated text
+        list = [generated, y_one_hot, probs]
     return list
     #return generated
 
@@ -158,16 +160,7 @@ def perplexity(y_true, y_pred, mask=None):
         return K.pow(2, K.mean(-K.log2(y_pred)))
 
 
-    # from predicted probability distribution (ich glaube das isch "probs"),
-
-    # muss man aus probs die wkt vom "true character" nehmen oder die wkt von dem welches unser modell predicted?!, eher true, oder?!
-
-    #TODO get probability of correct character from probs.... wie? y?
-
-#def perplexity2(y_pred):
-    #return K.pow(2, K.mean(-K.log2(y_pred)))
-
-print("perplexity is: ", perplexity(list[1]))
+print("perplexity is: ", perplexity(list[1], list[2]))
 
 
 #
