@@ -165,7 +165,7 @@ def perplexity(y_true, y_pred, mask=None):
 def perplexity2(y_pred):
     return K.pow(2, K.mean(-K.log2(y_pred)))
 
-print(perplexity2(list[1]))
+print("perplexity is: ", perplexity2(list[1]))
 
 
 #
