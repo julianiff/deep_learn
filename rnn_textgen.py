@@ -94,10 +94,15 @@ def generate(temperature=0.35, seed=None, predicate=lambda x: len(x) < 200):
 
         # sample the character to use based on the predicted probabilities
         next_idx = sample(probs, temperature)
+        print("next_idx is: ", next_idx)
         next_char = labels_char[next_idx]
+        print("next_char is: ", next_char, " and labels_char[next_idx] is :", labels_char[next_idx])
+
+        print("y predicted might be : ", probs[next_idx])
 
         generated += next_char
         sentence = sentence[1:] + next_char
+        print("Probs is : ", probs)
     return generated
 
 """ Temperate controls the randomness of the network. The lower the temparature
@@ -109,12 +114,13 @@ def sample(probs, temperature):
     a = np.log(probs)/temperature
     dist = np.exp(a)/np.sum(np.exp(a))
     choices = range(len(probs))
+    print("probs is :", probs, " and choices is ", choices)
     return np.random.choice(choices, p=dist)
 
 
 """ With this generation function we can modify how we train the newtork so that we see some output at each step:"""
 
-epochs = 10
+epochs = 1
 for i in range(epochs):
     print('epoch %d'%i)
 
@@ -145,10 +151,11 @@ def perplexity(y_true, y_pred, mask=None):
         return K.pow(2, K.mean(-K.log2(y_pred)))
 
 
-    # from predicted probability distribution (ich glaube das isch "probs"), get the probability of the correct character
-    # (and not the probability of the predicted character!!), das isch denn s'"y_pred" wo id endformle muss...
-    # für was mer de rest brucht weiss ich nööööööd
+    # from predicted probability distribution (ich glaube das isch "probs"),
+
+    # muss man aus probs die wkt vom "true character" nehmen oder die wkt von dem welches unser modell predicted?!, eher true, oder?!
 
     #TODO get probability of correct character from probs.... wie? y?
 
+#
 # http://stackoverflow.com/questions/37089201/how-to-calculate-perplexity-for-a-language-model-trained-using-keras
