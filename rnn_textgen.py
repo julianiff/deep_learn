@@ -103,7 +103,11 @@ def generate(temperature=0.35, seed=None, predicate=lambda x: len(x) < 200):
         generated += next_char
         sentence = sentence[1:] + next_char
         print("Probs is : ", probs)
-    return generated
+
+        # list containing generated and the probability of the predicted char
+        list = [generated, probs[next_idx]]
+    return list
+    #return generated
 
 """ Temperate controls the randomness of the network. The lower the temparature
     favors more likely values, higher introduce more randomness """
@@ -131,7 +135,8 @@ for i in range(epochs):
     # preview
     for temp in [0.2, 0.5, 1., 1.2]:
         print('temperature: %0.2f'%temp)
-        print('%s'%generate(temperature=temp))
+        list = generate(temperature=temp)
+        print(list[0])
 
 
 
@@ -156,6 +161,12 @@ def perplexity(y_true, y_pred, mask=None):
     # muss man aus probs die wkt vom "true character" nehmen oder die wkt von dem welches unser modell predicted?!, eher true, oder?!
 
     #TODO get probability of correct character from probs.... wie? y?
+
+def perplexity2(y_pred):
+    return K.pow(2, K.mean(-K.log2(y_pred)))
+
+print(perplexity2(list[1]))
+
 
 #
 # http://stackoverflow.com/questions/37089201/how-to-calculate-perplexity-for-a-language-model-trained-using-keras
