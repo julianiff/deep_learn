@@ -88,6 +88,8 @@ def generate(temperature=0.35, seed=None, predicate=lambda x: len(x) < 200):
         x = np.zeros((1, max_len, len(chars)))
         for t, char in enumerate(sentence):
             x[0, t, char_labels[char]] = 1.
+            # ????? IS THIS Y_TRUE?!?!??!?
+            print("maaaaybe this is y_true..... : ", y[0])
 
         # this produces a probability distribution over characters
         probs = model.predict(x, verbose=0)[0]
@@ -105,7 +107,7 @@ def generate(temperature=0.35, seed=None, predicate=lambda x: len(x) < 200):
         print("Probs is : ", probs)
 
         # list containing generated and the probability of the predicted char
-        list = [generated, probs[next_idx]]
+        list = [generated, probs, next_idx]
     return list
     #return generated
 
@@ -162,10 +164,10 @@ def perplexity(y_true, y_pred, mask=None):
 
     #TODO get probability of correct character from probs.... wie? y?
 
-def perplexity2(y_pred):
-    return K.pow(2, K.mean(-K.log2(y_pred)))
+#def perplexity2(y_pred):
+    #return K.pow(2, K.mean(-K.log2(y_pred)))
 
-print("perplexity is: ", perplexity2(list[1]))
+print("perplexity is: ", perplexity(list[1]))
 
 
 #
