@@ -70,7 +70,7 @@ for i, example in enumerate(inputs):
 
 # create outputs2, to know, what the true y would be...
 outputs2 = None
-
+correct_probabilities = []
 """ Function to produce text from the network"""
 
 def generate(temperature=0.35, seed=None, predicate=lambda x: len(x) < 200):
@@ -91,19 +91,26 @@ def generate(temperature=0.35, seed=None, predicate=lambda x: len(x) < 200):
         # generate the input tensor
         # from the last max_len characters generated so far
         x = np.zeros((1, max_len, len(chars)))
-        # nomal sgliche wie obe...
+        # to know what the true next char is
         y2 = np.zeros((1, len(chars)), dtype=np.bool)
 
         print("y is ", y)
         for t, char in enumerate(sentence):
             x[0, t, char_labels[char]] = 1.
-            # ka eifach nomal sgliche wie obe?!
-            y2[0, char_labels[outputs2]] = 1
 
-            # TODO GET one hot encoded vector of true y
-            # ????? IS THIS Y_TRUE?!?!??!?!!??? for perplexity calculation we need the one-hot encoded vector of the
-            # correct next character....
-        print("maaaaybe this is y_true..... : y2: ", y2)
+        # to know, what the true next char is:
+        y2[0, char_labels[outputs2]] = 1
+
+        # get the one-hot-encoded version of y2
+        y_one_hot = []
+        for e in y2:
+            if e == False:
+                y_one_hot.append(0)
+            else:
+                y_one_hot.append(1)
+
+        print("This is one hot encoded version of y2, y_one_hot: ", y_one_hot)
+        print("The length of y_one_hot is: ", len(y_one_hot))
 
         # this produces a probability distribution over characters
         probs = model.predict(x, verbose=0)[0]
@@ -112,15 +119,20 @@ def generate(temperature=0.35, seed=None, predicate=lambda x: len(x) < 200):
         next_idx = sample(probs, temperature)
         print("next_idx is: ", next_idx)
         next_char = labels_char[next_idx]
-        print("next_char is: ", next_char, " and labels_char[next_idx] is :", labels_char[next_idx])
-
+        print("next_char is: ", next_char)
         print("y predicted probability distribution : ", probs)
+        print("The length of probs is: ", len(probs))
         generated += next_char
         sentence = sentence[1:] + next_char
 
 
         # list containing all infos for perplexity calculation and to output the generated text
-        list = [generated, y_one_hot, probs]
+        correct_index = y_one_hot.index(1)
+        correct_proba = probs[correct_index]
+
+        correct_probabilities.append(correct_proba)
+
+        list = [generated, correct_probabilities]
     return list
     #return generated
 
@@ -170,8 +182,13 @@ def perplexity(y_true, y_pred, mask=None):
     else:
         return K.pow(2, K.mean(-np.log2(y_pred)))
 
+# simple version of perplexity:
+def perplexity2(correct_proba):
+    np.power(2, -np.sum(np.log2(correct_proba), axis=1) / len(correct_probabilities))
 
-print("perplexity is: ", perplexity(list[1], list[2]))
+
+#print("perplexity is: ", perplexity(list[1], list[2]))
+print("perplexity2 is: ", perplexity2(correct_probabilities))
 
 
 #
