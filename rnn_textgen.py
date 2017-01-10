@@ -100,10 +100,10 @@ def generate(temperature=0.35, seed=None, predicate=lambda x: len(x) < 200):
 
         # to know, what the true next char is:
         y2[0, char_labels[outputs2]] = 1
-
+        print("y2 is: ", y2)
         # get the one-hot-encoded version of y2
         y_one_hot = []
-        for e in y2:
+        for e in y2[0]:
             if e == False:
                 y_one_hot.append(0)
             else:
