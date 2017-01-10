@@ -191,7 +191,7 @@ def perplexity2(correct_proba):
     sum = 0
     for prob in correct_proba:
         sum = sum + np.log2(prob)
-    return np.power(2, -sum, axis=1 / len(correct_probabilities))
+    return np.power(2, -sum / len(correct_probabilities))
 
 
 
