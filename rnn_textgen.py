@@ -128,7 +128,9 @@ def generate(temperature=0.35, seed=None, predicate=lambda x: len(x) < 200):
 
         # list containing all infos for perplexity calculation and to output the generated text
         correct_index = y_one_hot.index(1)
+        print("correct index is: ", correct_index)
         correct_proba = probs[correct_index]
+        print("correct proba is: ", correct_proba)
 
         correct_probabilities.append(correct_proba)
 
