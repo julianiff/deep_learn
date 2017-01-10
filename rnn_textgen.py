@@ -86,13 +86,14 @@ def generate(temperature=0.35, seed=None, predicate=lambda x: len(x) < 200):
         # generate the input tensor
         # from the last max_len characters generated so far
         x = np.zeros((1, max_len, len(chars)))
+        print("y is ", y)
         for t, char in enumerate(sentence):
             x[0, t, char_labels[char]] = 1.
             # TODO GET one hot encoded vector of true y
             # ????? IS THIS Y_TRUE?!?!??!?!!??? for perplexity calculation we need the one-hot encoded vector of the
-            # true/correct next character....
-            print("maaaaybe this is y_true..... : ", y[0])
-            y_one_hot = y[0]
+            # correct next character....
+          #  print("maaaaybe this is y_true..... : ", y[0])
+         #   y_one_hot = y[0]
 
         # this produces a probability distribution over characters
         probs = model.predict(x, verbose=0)[0]
@@ -102,6 +103,8 @@ def generate(temperature=0.35, seed=None, predicate=lambda x: len(x) < 200):
         print("next_idx is: ", next_idx)
         next_char = labels_char[next_idx]
         print("next_char is: ", next_char, " and labels_char[next_idx] is :", labels_char[next_idx])
+
+        print("anderi möglichkeit, y is y[next_idx] is: ", y[next_idx])
 
         print("y predicted probability distribution : ", probs)
         generated += next_char
