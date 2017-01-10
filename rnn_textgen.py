@@ -69,7 +69,7 @@ for i, example in enumerate(inputs):
 
 
 # create outputs2, to know, what the true y would be...
-outputs2 = a
+outputs2 = None
 
 """ Function to produce text from the network"""
 
