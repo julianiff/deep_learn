@@ -183,8 +183,11 @@ def perplexity(y_true, y_pred, mask=None):
         return K.pow(2, K.mean(-np.log2(y_pred)))
 
 # simple version of perplexity:
+print("length of correct_probabilities is: ", len(correct_probabilities))
+print("correct probabilities is: ", correct_probabilities)
 def perplexity2(correct_proba):
-    np.power(2, -np.sum(np.log2(correct_proba), axis=1) / len(correct_probabilities))
+    return np.power(2, -np.sum(np.log2(correct_proba), axis=1) / len(correct_probabilities))
+
 
 
 #print("perplexity is: ", perplexity(list[1], list[2]))
