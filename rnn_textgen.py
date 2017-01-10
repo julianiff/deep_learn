@@ -68,6 +68,9 @@ for i, example in enumerate(inputs):
     y[i, char_labels[outputs[i]]] = 1
 
 
+# create outputs2, to know, what the true y would be...
+outputs2 = a
+
 """ Function to produce text from the network"""
 
 def generate(temperature=0.35, seed=None, predicate=lambda x: len(x) < 200):
@@ -75,15 +78,10 @@ def generate(temperature=0.35, seed=None, predicate=lambda x: len(x) < 200):
         raise Exception('Seed text must be at least {} chars long'.format(max_len))
 
     # if no seed text is specified, randomly select a chunk of text
-
-    # create outputs2, to know, what the true y would be...
-    outputs2 = Null
-
     else:
         start_idx = random.randint(0, len(text) - max_len - 1)
         seed = text[start_idx:start_idx + max_len]
         outputs2 = text[start_idx + max_len]
-
         print("outputs2 is: ", outputs2)
 
     sentence = seed
