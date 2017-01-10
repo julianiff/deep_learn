@@ -75,9 +75,16 @@ def generate(temperature=0.35, seed=None, predicate=lambda x: len(x) < 200):
         raise Exception('Seed text must be at least {} chars long'.format(max_len))
 
     # if no seed text is specified, randomly select a chunk of text
+
+    # create outputs2, to know, what the true y would be...
+    outputs2 = Null
+
     else:
         start_idx = random.randint(0, len(text) - max_len - 1)
         seed = text[start_idx:start_idx + max_len]
+        outputs2 = text[start_idx + max_len]
+
+        print("outputs2 is: ", outputs2)
 
     sentence = seed
     generated = sentence
@@ -86,14 +93,19 @@ def generate(temperature=0.35, seed=None, predicate=lambda x: len(x) < 200):
         # generate the input tensor
         # from the last max_len characters generated so far
         x = np.zeros((1, max_len, len(chars)))
+        # nomal sgliche wie obe...
+        y2 = np.zeros((1, len(chars)), dtype=np.bool)
+
         print("y is ", y)
         for t, char in enumerate(sentence):
             x[0, t, char_labels[char]] = 1.
+            # ka eifach nomal sgliche wie obe?!
+            y2[0, char_labels[outputs2]] = 1
+
             # TODO GET one hot encoded vector of true y
             # ????? IS THIS Y_TRUE?!?!??!?!!??? for perplexity calculation we need the one-hot encoded vector of the
             # correct next character....
-          #  print("maaaaybe this is y_true..... : ", y[0])
-         #   y_one_hot = y[0]
+        print("maaaaybe this is y_true..... : y2: ", y2)
 
         # this produces a probability distribution over characters
         probs = model.predict(x, verbose=0)[0]
@@ -103,16 +115,6 @@ def generate(temperature=0.35, seed=None, predicate=lambda x: len(x) < 200):
         print("next_idx is: ", next_idx)
         next_char = labels_char[next_idx]
         print("next_char is: ", next_char, " and labels_char[next_idx] is :", labels_char[next_idx])
-
-        print("anderi möglichkeit, y is y[next_idx] is: ", y[next_idx])
-        y_one_hot = []
-        for e in y[next_idx]:
-            if e == False:
-                y_one_hot.append(0)
-            else:
-                y_one_hot.append(1)
-        print(y_one_hot)
-
 
         print("y predicted probability distribution : ", probs)
         generated += next_char
