@@ -105,6 +105,14 @@ def generate(temperature=0.35, seed=None, predicate=lambda x: len(x) < 200):
         print("next_char is: ", next_char, " and labels_char[next_idx] is :", labels_char[next_idx])
 
         print("anderi möglichkeit, y is y[next_idx] is: ", y[next_idx])
+        y_one_hot = []
+        for e in y[next_idx]:
+            if e == False:
+                y_one_hot.append(0)
+            else:
+                y_one_hot.append(1)
+        print(y_one_hot)
+
 
         print("y predicted probability distribution : ", probs)
         generated += next_char
@@ -158,9 +166,9 @@ def perplexity(y_true, y_pred, mask=None):
         mask = K.permute_dimensions(K.reshape(mask, y_true.shape[:-1]), (0, 1, 'x'))
         truth_mask = K.flatten(y_true*mask).nonzero()[0]  ### How do you do this on tensorflow?
         predictions = K.gather(y_pred.flatten(), truth_mask)
-        return K.pow(2, K.mean(-K.log2(predictions)))
+        return K.pow(2, K.mean(-np.log2(predictions)))
     else:
-        return K.pow(2, K.mean(-K.log2(y_pred)))
+        return K.pow(2, K.mean(-np.log2(y_pred)))
 
 
 print("perplexity is: ", perplexity(list[1], list[2]))
