@@ -153,7 +153,7 @@ def sample(probs, temperature):
 
 """ With this generation function we can modify how we train the newtork so that we see some output at each step:"""
 
-epochs = 1
+epochs = 4
 for i in range(epochs):
     print('epoch %d'%i)
 
@@ -191,7 +191,6 @@ def perplexity2(correct_proba):
     sum = 0
     normal_sum = 0
     for prob in correct_proba:
-        normal_sum = normal_sum + prob
         sum = sum + np.log2(prob)
         print("sum is: ", sum, " normal_sum is ", normal_sum)
     return np.power(2, -sum / len(correct_probabilities))
