@@ -94,7 +94,7 @@ def generate(temperature=0.35, seed=None, predicate=lambda x: len(x) < 200):
         # to know what the true next char is
         y2 = np.zeros((1, len(chars)), dtype=np.bool)
 
-        print("y is ", y)
+        #print("y is ", y)
         for t, char in enumerate(sentence):
             x[0, t, char_labels[char]] = 1.
 
@@ -109,28 +109,28 @@ def generate(temperature=0.35, seed=None, predicate=lambda x: len(x) < 200):
             else:
                 y_one_hot.append(1)
 
-        print("This is one hot encoded version of y2, y_one_hot: ", y_one_hot)
-        print("The length of y_one_hot is: ", len(y_one_hot))
+        #print("This is one hot encoded version of y2, y_one_hot: ", y_one_hot)
+        #print("The length of y_one_hot is: ", len(y_one_hot))
 
         # this produces a probability distribution over characters
         probs = model.predict(x, verbose=0)[0]
 
         # sample the character to use based on the predicted probabilities
         next_idx = sample(probs, temperature)
-        print("next_idx is: ", next_idx)
+        #print("next_idx is: ", next_idx)
         next_char = labels_char[next_idx]
-        print("next_char is: ", next_char)
-        print("y predicted probability distribution : ", probs)
-        print("The length of probs is: ", len(probs))
+        #print("next_char is: ", next_char)
+        #print("y predicted probability distribution : ", probs)
+        #print("The length of probs is: ", len(probs))
         generated += next_char
         sentence = sentence[1:] + next_char
 
 
         # list containing all infos for perplexity calculation and to output the generated text
         correct_index = y_one_hot.index(1)
-        print("correct index is: ", correct_index)
+        #print("correct index is: ", correct_index)
         correct_proba = probs[correct_index]
-        print("correct proba is: ", correct_proba)
+        #print("correct proba is: ", correct_proba)
 
         correct_probabilities.append(correct_proba)
 
@@ -153,7 +153,7 @@ def sample(probs, temperature):
 
 """ With this generation function we can modify how we train the newtork so that we see some output at each step:"""
 
-epochs = 4
+epochs = 10
 for i in range(epochs):
     print('epoch %d'%i)
 
@@ -185,14 +185,14 @@ def perplexity(y_true, y_pred, mask=None):
         return K.pow(2, K.mean(-np.log2(y_pred)))
 
 # simple version of perplexity:
-print("length of correct_probabilities is: ", len(correct_probabilities))
-print("correct probabilities is: ", correct_probabilities)
+#print("length of correct_probabilities is: ", len(correct_probabilities))
+#print("correct probabilities is: ", correct_probabilities)
 def perplexity2(correct_proba):
     sum = 0
     normal_sum = 0
     for prob in correct_proba:
         sum = sum + np.log2(prob)
-        print("sum is: ", sum, " normal_sum is ", normal_sum)
+        #print("sum is: ", sum, " normal_sum is ", normal_sum)
     return np.power(2, -sum / len(correct_probabilities))
 
 
