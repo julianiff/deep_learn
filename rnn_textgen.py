@@ -204,9 +204,14 @@ def perplexity2(correct_proba):
     return np.power(2, -sum / len(correct_probabilities))
 
 
-
 #print("perplexity is: ", perplexity(list[1], list[2]))
-print("perplexity2 is: ", perplexity2(correct_probabilities))
+perplexity_value = perplexity2(correct_probabilities)
+print("perplexity2 is: ", perplexity_value)
+target = open(filename, 'w')
+target.write("\n")
+target.write("Perplexity: " % perplexity_value)
+target.write("\n")
+target.close()
 
 
 #
