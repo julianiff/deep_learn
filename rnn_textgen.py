@@ -10,7 +10,10 @@ from keras.models import Sequential
 from keras.layers.recurrent import LSTM
 from keras.layers import Bidirectional
 from keras.layers.core import Dense, Activation, Dropout
+from sys import argv
 
+# to write into textfile
+filename = 'output.txt'
 # load up our text
 text_files = glob('data/sotu/*.txt')
 text = '\n'.join([open(f, 'r').read() for f in text_files])
@@ -166,6 +169,11 @@ for i in range(epochs):
         print('temperature: %0.2f'%temp)
         list = generate(temperature=temp)
         print(list[0])
+        target = open(filename, 'w')
+        target.write("\n")
+        target.write("epoch " % i % "\n")
+        target.write(list[0] % "\n")
+        target.close()
 
 
 
