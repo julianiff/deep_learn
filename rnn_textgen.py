@@ -171,8 +171,10 @@ for i in range(epochs):
         print(list[0])
         target = open(filename, 'w')
         target.write("\n")
-        target.write("epoch " % i % "\n")
-        target.write(list[0] % "\n")
+        target.write("epoch " % i)
+        target.write("\n")
+        target.write(list[0])
+        target.write("\n")
         target.close()
 
 
