@@ -10,7 +10,6 @@ from keras.models import Sequential
 from keras.layers.recurrent import LSTM
 from keras.layers import Bidirectional
 from keras.layers.core import Dense, Activation, Dropout
-from sys import argv
 
 # to write into textfile
 filename = 'output.txt'
@@ -171,7 +170,7 @@ for i in range(epochs):
         print(list[0])
         target = open(filename, 'w')
         target.write("\n")
-        target.write("epoch " % i)
+        target.write("epoch")
         target.write("\n")
         target.write(list[0])
         target.write("\n")
@@ -211,7 +210,8 @@ perplexity_value = perplexity2(correct_probabilities)
 print("perplexity2 is: ", perplexity_value)
 target = open(filename, 'w')
 target.write("\n")
-target.write("Perplexity: " % perplexity_value)
+target.write("Perplexity: ")
+target.write(perplexity_value)
 target.write("\n")
 target.close()
 
