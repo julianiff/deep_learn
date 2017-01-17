@@ -14,8 +14,8 @@ from keras.layers.core import Dense, Activation, Dropout
 # to write into textfile
 filename = 'output.txt'
 # load up our text
-text_files = glob('data/abstract/**/**/**/*.txt')
-text = '\n'.join([open(f, 'r', errors='ignore').read() for f in text_files])
+text_files = glob('data/sotu/*.txt')
+text = '\n'.join([open(f, 'r').read() for f in text_files])
 
 # extract all (unique) characters
 # these are our "categories" or "labels"
@@ -84,7 +84,7 @@ def generate(temperature=0.35, seed=None, predicate=lambda x: len(x) < 200):
         start_idx = random.randint(0, len(text) - max_len - 1)
         seed = text[start_idx:start_idx + max_len]
         outputs2 = text[start_idx + max_len]
-        #print("outputs2 is: ", outputs2)
+        print("outputs2 is: ", outputs2)
 
     sentence = seed
     generated = sentence
