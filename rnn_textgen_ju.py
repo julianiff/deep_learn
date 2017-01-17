@@ -171,10 +171,6 @@ for i in range(epochs):
         print('temperature: %0.2f'%temp)
         list = generate(temperature=temp)
         print(list[0])
-        f = open('output_ju.txt', 'a')
-        f.write('Ouput Text: ' + list[0] + '\n')
-        f.close()
-
 
 
 
