@@ -76,6 +76,7 @@ correct_probabilities = []
 """ Function to produce text from the network"""
 
 def generate(temperature=0.35, seed=None, predicate=lambda x: len(x) < 200):
+    print("Temperature is ", temperature)
     if seed is not None and len(seed) < max_len:
         raise Exception('Seed text must be at least {} chars long'.format(max_len))
 
@@ -162,10 +163,11 @@ for i in range(epochs):
 
     # set nb_epoch to 1 since we're iterating manually
     # comment this out if you just want to generate text
-    model.fit(X, y, batch_size=128, nb_epoch=1)
+    model.fit(X, y, batch_size=128, nb_epoch=epochs)
 
     # preview
-    for temp in [0.2, 0.5, 1., 1.2]:
+    #for temp in [0.2, 0.5, 1., 1.2]:
+    for temp in [0.1]:
         print('temperature: %0.2f'%temp)
         list = generate(temperature=temp)
         print(list[0])
