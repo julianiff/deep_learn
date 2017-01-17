@@ -23,7 +23,7 @@ chars = list(set(text))
 
 # set a fixed vector size
 # so we look at specific windows of characters
-max_len = 20
+max_len = 40
 
 model = Sequential()
 model.add(LSTM(512, return_sequences=True, input_shape=(max_len, len(chars))))
