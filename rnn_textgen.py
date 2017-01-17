@@ -15,7 +15,7 @@ from keras.layers.core import Dense, Activation, Dropout
 filename = 'output.txt'
 # load up our text
 text_files = glob('data/abstract/**/**/**/*.txt')
-text = '\n'.join([open(f, 'r').read() for f in text_files])
+text = '\n'.join([open(f, 'r', errors='ignore').read() for f in text_files])
 
 # extract all (unique) characters
 # these are our "categories" or "labels"
@@ -156,7 +156,7 @@ def sample(probs, temperature):
 
 """ With this generation function we can modify how we train the newtork so that we see some output at each step:"""
 
-epochs = 10
+epochs = 15
 for i in range(epochs):
     print('epoch %d'%i)
 
