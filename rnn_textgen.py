@@ -84,7 +84,7 @@ def generate(temperature=0.35, seed=None, predicate=lambda x: len(x) < 200):
         start_idx = random.randint(0, len(text) - max_len - 1)
         seed = text[start_idx:start_idx + max_len]
         outputs2 = text[start_idx + max_len]
-        print("outputs2 is: ", outputs2)
+        #print("outputs2 is: ", outputs2)
 
     sentence = seed
     generated = sentence
@@ -102,7 +102,7 @@ def generate(temperature=0.35, seed=None, predicate=lambda x: len(x) < 200):
 
         # to know, what the true next char is:
         y2[0, char_labels[outputs2]] = 1
-        print("y2 is: ", y2)
+        #print("y2 is: ", y2)
         # get the one-hot-encoded version of y2
         y_one_hot = []
         for e in y2[0]:
@@ -134,6 +134,7 @@ def generate(temperature=0.35, seed=None, predicate=lambda x: len(x) < 200):
         correct_proba = probs[correct_index]
         #print("correct proba is: ", correct_proba)
 
+
         correct_probabilities.append(correct_proba)
 
         list = [generated, correct_probabilities]
@@ -149,7 +150,7 @@ def sample(probs, temperature):
     a = np.log(probs)/temperature
     dist = np.exp(a)/np.sum(np.exp(a))
     choices = range(len(probs))
-    print("probs is :", probs, " and choices is ", choices)
+    #print("probs is :", probs, " and choices is ", choices)
     return np.random.choice(choices, p=dist)
 
 
@@ -168,13 +169,7 @@ for i in range(epochs):
         print('temperature: %0.2f'%temp)
         list = generate(temperature=temp)
         print(list[0])
-        target = open(filename, 'w')
-        target.write("\n")
-        target.write("epoch")
-        target.write("\n")
-        target.write(list[0])
-        target.write("\n")
-        target.close()
+
 
 
 
@@ -205,15 +200,10 @@ def perplexity2(correct_proba):
     return np.power(2, -sum / len(correct_probabilities))
 
 
+
 #print("perplexity is: ", perplexity(list[1], list[2]))
 perplexity_value = perplexity2(correct_probabilities)
 print("perplexity2 is: ", perplexity_value)
-target = open(filename, 'w')
-target.write("\n")
-target.write("Perplexity: ")
-target.write(perplexity_value)
-target.write("\n")
-target.close()
 
 
 #
