@@ -157,7 +157,7 @@ def sample(probs, temperature):
 
 """ With this generation function we can modify how we train the newtork so that we see some output at each step:"""
 
-epochs = 3
+epochs = 6
 for i in range(epochs):
     print('epoch %d'%i)
 
