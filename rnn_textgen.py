@@ -14,7 +14,7 @@ from keras.layers.core import Dense, Activation, Dropout
 # to write into textfile
 filename = 'output.txt'
 # load up our text
-text_files = glob('data/sotu/*.txt')
+text_files = glob('data/abstract/**/**/**/*.txt')
 text = '\n'.join([open(f, 'r').read() for f in text_files])
 
 # extract all (unique) characters
