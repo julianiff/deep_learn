@@ -150,7 +150,7 @@ def sample(probs, temperature):
     a = np.log(probs)/temperature
     dist = np.exp(a)/np.sum(np.exp(a))
     choices = range(len(probs))
-    #print("probs is :", probs, " and choices is ", choices)
+    print("probs is :", probs, " and choices is ", choices)
     return np.random.choice(choices, p=dist)
 
 
