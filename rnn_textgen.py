@@ -43,7 +43,7 @@ Dropout to prevent overfitting, have some wiggle room,
 """
 Generalization of training example with step 3
 """
-step = 3
+step = 5
 inputs = []
 outputs = []
 for i in range(0, len(text) - max_len, step):
@@ -140,7 +140,6 @@ def generate(temperature=0.35, seed=None, predicate=lambda x: len(x) < 200):
 
         list = [generated, correct_probabilities]
     return list
-    #return generated
 
 """ Temperate controls the randomness of the network. The lower the temparature
     favors more likely values, higher introduce more randomness """
@@ -173,26 +172,9 @@ for i in range(epochs):
         print(list[0])
 
 
-
-
 # Add perplexity as evaluation measure. (A low perplexity indicates the probability distribution is good at predicting
 # the sample.)
 
-from keras import backend as K
-
-def perplexity(y_true, y_pred, mask=None):
-    if mask is not None:
-        y_pred /= K.sum(y_pred, axis=-1, keepdims=True)
-        mask = K.permute_dimensions(K.reshape(mask, y_true.shape[:-1]), (0, 1, 'x'))
-        truth_mask = K.flatten(y_true*mask).nonzero()[0]  ### How do you do this on tensorflow?
-        predictions = K.gather(y_pred.flatten(), truth_mask)
-        return K.pow(2, K.mean(-np.log2(predictions)))
-    else:
-        return K.pow(2, K.mean(-np.log2(y_pred)))
-
-# simple version of perplexity:
-#print("length of correct_probabilities is: ", len(correct_probabilities))
-#print("correct probabilities is: ", correct_probabilities)
 def perplexity2(correct_proba):
     sum = 0
     normal_sum = 0
@@ -202,11 +184,8 @@ def perplexity2(correct_proba):
     return np.power(2, -sum / len(correct_probabilities))
 
 
-
-#print("perplexity is: ", perplexity(list[1], list[2]))
 perplexity_value = perplexity2(correct_probabilities)
-print("perplexity2 is: ", perplexity_value)
+print("The Perplexity is: ", perplexity_value)
 
 
-#
 # http://stackoverflow.com/questions/37089201/how-to-calculate-perplexity-for-a-language-model-trained-using-keras
