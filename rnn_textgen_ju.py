@@ -31,7 +31,7 @@ model.add(Dropout(0.2))
 model.add(LSTM(512, return_sequences=False))
 model.add(Dropout(0.2))
 model.add(Dense(len(chars)))
-model.add(Activation('softmax'))
+model.add(Activation('tanh'))
 model.compile(loss='categorical_crossentropy', optimizer='rmsprop')
 """
 The categorical cross-entropy loss the standard loss function for multilabel classification,
@@ -163,7 +163,7 @@ for i in range(epochs):
 
     # set nb_epoch to 1 since we're iterating manually
     # comment this out if you just want to generate text
-    model.fit(X, y, batch_size=128, nb_epoch=1)
+    model.fit(X, y, batch_size=256, nb_epoch=1)
 
     # preview
     #for temp in [0.2, 0.5, 1., 1.2]:
