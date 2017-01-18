@@ -23,7 +23,7 @@ chars = list(set(text))
 
 # set a fixed vector size
 # so we look at specific windows of characters
-max_len = 25
+max_len = 40
 
 model = Sequential()
 model.add(LSTM(512, return_sequences=True, input_shape=(max_len, len(chars))))
@@ -43,7 +43,7 @@ Dropout to prevent overfitting, have some wiggle room,
 """
 Generalization of training example with step 3
 """
-step = 5
+step = 3
 inputs = []
 outputs = []
 for i in range(0, len(text) - max_len, step):
@@ -103,7 +103,6 @@ def generate(temperature=0.35, seed=None, predicate=lambda x: len(x) < 200):
 
         # to know, what the true next char is:
         y2[0, char_labels[outputs2]] = 1
-        #print("y2 is: ", y2)
         # get the one-hot-encoded version of y2
         y_one_hot = []
         for e in y2[0]:
@@ -112,29 +111,19 @@ def generate(temperature=0.35, seed=None, predicate=lambda x: len(x) < 200):
             else:
                 y_one_hot.append(1)
 
-        #print("This is one hot encoded version of y2, y_one_hot: ", y_one_hot)
-        #print("The length of y_one_hot is: ", len(y_one_hot))
-
         # this produces a probability distribution over characters
         probs = model.predict(x, verbose=0)[0]
 
         # sample the character to use based on the predicted probabilities
         next_idx = sample(probs, temperature)
-        #print("next_idx is: ", next_idx)
         next_char = labels_char[next_idx]
-        #print("next_char is: ", next_char)
-        #print("y predicted probability distribution : ", probs)
-        #print("The length of probs is: ", len(probs))
         generated += next_char
         sentence = sentence[1:] + next_char
 
 
         # list containing all infos for perplexity calculation and to output the generated text
         correct_index = y_one_hot.index(1)
-        #print("correct index is: ", correct_index)
         correct_proba = probs[correct_index]
-        #print("correct proba is: ", correct_proba)
-
 
         correct_probabilities.append(correct_proba)
 
@@ -162,10 +151,9 @@ for i in range(epochs):
 
     # set nb_epoch to 1 since we're iterating manually
     # comment this out if you just want to generate text
-    model.fit(X, y, batch_size=128, nb_epoch=epochs)
+    model.fit(X, y, batch_size=256, nb_epoch=epochs)
 
     # preview
-    #for temp in [0.2, 0.5, 1., 1.2]:
     for temp in [0.1]:
         print('temperature: %0.2f'%temp)
         list = generate(temperature=temp)
