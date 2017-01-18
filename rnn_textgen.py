@@ -23,7 +23,7 @@ chars = list(set(text))
 
 # set a fixed vector size
 # so we look at specific windows of characters
-max_len = 40
+max_len = 30
 
 model = Sequential()
 model.add(LSTM(512, return_sequences=True, input_shape=(max_len, len(chars))))
@@ -145,13 +145,13 @@ def sample(probs, temperature):
 
 """ With this generation function we can modify how we train the newtork so that we see some output at each step:"""
 
-epochs = 3
+epochs = 10
 for i in range(epochs):
     print('epoch %d'%i)
 
     # set nb_epoch to 1 since we're iterating manually
     # comment this out if you just want to generate text
-    model.fit(X, y, batch_size=256, nb_epoch=epochs)
+    model.fit(X, y, batch_size=128, nb_epoch=epochs)
 
     # preview
     for temp in [0.1]:
