@@ -23,7 +23,7 @@ chars = list(set(text))
 
 # set a fixed vector size
 # so we look at specific windows of characters
-max_len = 5
+max_len = 10
 
 model = Sequential()
 model.add(LSTM(512, return_sequences=True, input_shape=(max_len, len(chars))))
@@ -163,7 +163,7 @@ for i in range(epochs):
 
     # set nb_epoch to 1 since we're iterating manually
     # comment this out if you just want to generate text
-    model.fit(X, y, batch_size=256, nb_epoch=1)
+    model.fit(X, y, batch_size=128, nb_epoch=1)
 
     # preview
     #for temp in [0.2, 0.5, 1., 1.2]:
